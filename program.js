@@ -1,17 +1,39 @@
 var fs = require('fs')
 var content = undefined
-var str = undefined
+var arr = []
 
 function readFile(callback) {
-	fs.readFile(process.argv[2], function doneReading(err, fileContents) {
+	fs.readdir(process.argv[2], function doneReading(err, fileContents) {
 		content = fileContents
-		str = content.toString()
 		callback()
 	})
 }
 
-function logLineNumber() {
-	console.log(str.split('\n').length -1)	
+function sortFiles() {
+	for (var i = content.length - 1; i >= 0; i--) {
+		if (content[i].indexOf(".md") !=-1) {
+			arr.push(content[i])
+		}
+	};
+	arr.sort()
 }
 
-readFile(logLineNumber)
+function logSortedFiles() {
+	sortFiles()
+	for (var i = 0; i < arr.length; i++) {
+		console.log(arr[i])
+	};
+}
+
+readFile(logSortedFiles)
+
+
+// var fs = require('fs')
+// var path = require('path')
+
+// fs.readdir(process.argv[2], function (err, list) {
+//   list.forEach(function (file) {
+//     if (path.extname(file) === '.' + process.argv[3])
+//       console.log(file)
+//   })
+// })
