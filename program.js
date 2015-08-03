@@ -1,6 +1,17 @@
 var fs = require('fs')
+var content = undefined
+var str = undefined
 
-var fileBuffer = fs.readFileSync(process.argv[2])
-var str = fileBuffer.toString()
+function readFile(callback) {
+	fs.readFile(process.argv[2], function doneReading(err, fileContents) {
+		content = fileContents
+		str = content.toString()
+		callback()
+	})
+}
 
-console.log(str.split('\n').length -1)
+function logLineNumber() {
+	console.log(str.split('\n').length -1)	
+}
+
+readFile(logLineNumber)
